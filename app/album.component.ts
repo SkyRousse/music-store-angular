@@ -3,7 +3,7 @@ import { Album } from './album.model';
 
 @Component ({
   selector: 'album-display',
-  inputs: ['album', 'cartTotal'],
+  inputs: ['album'],
   outputs: ['onChangeCartState'],
   template: `
   <div class="album">
@@ -20,7 +20,6 @@ import { Album } from './album.model';
 })
 export class AlbumComponent {
   public album: Album;
-  public cartTotal: number;
   public onChangeCartState: EventEmitter<number>;
   constructor(){
     this.onChangeCartState = new EventEmitter();

@@ -4,12 +4,13 @@ import { AlbumComponent } from './album.component';
 import { GenrePipe } from './genre.pipe';
 import { ArtistPipe } from './artist.pipe';
 import { CartPipe } from './cart.pipe';
+import { CartComponent } from './cart.component';
 
 @Component({
   selector: 'album-list',
   inputs: ['albumList'],
   pipes: [GenrePipe, ArtistPipe, CartPipe],
-  directives: [AlbumComponent],
+  directives: [AlbumComponent, CartComponent],
   template: `
     <select (change)="onChangeGenre($event.target.value)" class="filter">
       <option value="all" selected="selected">All Albums</option>
@@ -34,11 +35,9 @@ import { CartPipe } from './cart.pipe';
     </div>
     <h3>Cart - Total = \${{cartTotal}}</h3>
     <div class="cart album-container">
-      <album-display *ngFor="#currentAlbum of albumList | cartPipe"
-      (onChangeCartState)="updateCartTotal($event)"
-      [album]="currentAlbum"
-       >
-       </album-display>
+      <ul>
+       <cart *ngFor="#currentAlbum of albumList | cartPipe" [album]="currentAlbum"></cart>
+      </ul>
     </div>
   `
 })
