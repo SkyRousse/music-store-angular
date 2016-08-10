@@ -18,7 +18,8 @@ export class AppComponent {
     this.albums = [
       new Album("Blackstar", "David Bowie", 10, "Rock and Roll"),
       new Album("Sound of Silver","LCD Sound System",12,"Electronic"),
-      new Album("Golem", "Golem",6,"Klezmer")
+      new Album("Golem", "Golem",6,"Klezmer"),
+      new Album("Turtles all the way down", "Sturgil Simpson",6,"Country")
     ]
   }
 }
