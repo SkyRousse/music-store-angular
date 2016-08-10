@@ -1,13 +1,14 @@
-import { Component } from 'angular2/core';
+import { Component, EventEmitter } from 'angular2/core';
 import { Album } from './album.model';
 import { AlbumComponent } from './album.component';
 import { GenrePipe } from './genre.pipe';
 import { ArtistPipe } from './artist.pipe';
+import { CartPipe } from './cart.pipe';
 
 @Component({
   selector: 'album-list',
   inputs: ['albumList'],
-  pipes: [GenrePipe, ArtistPipe],
+  pipes: [GenrePipe, ArtistPipe, CartPipe],
   directives: [AlbumComponent],
   template: `
     <select (change)="onChangeGenre($event.target.value)" class="filter">
@@ -26,6 +27,15 @@ import { ArtistPipe } from './artist.pipe';
     </select>
     <div class="album-container">
       <album-display *ngFor="#currentAlbum of albumList | genrePipe:requestedGenre | artistPipe:requestedArtist"
+      (onChangeCartState)="updateCartTotal($event)"
+      [album]="currentAlbum"
+       >
+       </album-display>
+    </div>
+    <h3>Cart - Total = \${{cartTotal}}</h3>
+    <div class="cart album-container">
+      <album-display *ngFor="#currentAlbum of albumList | cartPipe"
+      (onChangeCartState)="updateCartTotal($event)"
       [album]="currentAlbum"
        >
        </album-display>
@@ -34,6 +44,7 @@ import { ArtistPipe } from './artist.pipe';
 })
 export class AlbumListComponent {
   public albumList: Album[];
+  public cartTotal: number = 0;
   public requestedGenre: string = "all";
   public requestedArtist: string = "all";
   constructor(){}
@@ -42,5 +53,9 @@ export class AlbumListComponent {
   }
   onChangeArtist(filterOption) {
     this.requestedArtist = filterOption;
+  }
+  updateCartTotal(updateValue) {
+    this.cartTotal = this.cartTotal + updateValue;
+    console.log("success");
   }
 }
